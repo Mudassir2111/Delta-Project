@@ -1,0 +1,124 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  
+
+  .show-image{
+    height: 32vh !important;
+    width: 60vh !important;
+  }
+
+  @media (max-width:750px){
+       
+    .offset-3 {
+    margin-left: 5%;
+};
+
+.form-control{
+  width: 90% !important;
+};
+
+.card{
+  width: 18rem;
+}
+};
+
+@media (max-width:535px){
+  .show-image {
+    height: 32vh !important;
+    width: 40vh !important;
+}
+}
+
+@media (max-width :410px){
+  .offset-3 {
+    margin-left: 10%;
+};
+
+.show-image {
+    height: 32vh !important;
+    width: 30vh !important;
+}
+
+#map .mapboxgl-canvas {
+  height: 400px;
+  width: 100vw;
+}
+}
+  
+</style>
+  <body>
+    <div class="row mt-3">
+      <div class="col-8 offset-3"><h3><%=listing.title%></h3></div>
+   
+   
+    <div class="card col-6 offset-3 show-card">
+      <div class="card" >
+        <img src="<%= listing.image%>" class="card-img-top show-image" alt="listing_image">
+        <div class="card-body">
+          <p class="card-text">Owend By<i> <%=listing.owner.username  %></i> </p>
+             <br />
+           <p class="card-text"><%= listing.description %><br></p> 
+           <p class="card-text"> &#8377; <%= listing.price.toLocaleString("en-IN") %></p>
+           <p class="card-text"><%= listing.location %></p> 
+           <p class="card-text"><%= listing.country %></p> 
+
+         
+        </div>
+      </div>
+    </div>
+
+
+
+
+  </div>
+
+    
+    <div class="butt offset-3">
+      <a href="/listings/<%= listing._id %>/edit" class="btn btn-danger" style="height: 2.4rem">Edit
+      </a>
+        <form method="POST" action="/listings/<%=listing._id%>?_method=DELETE">
+          <button class="btn btn-dark">Delete</button>
+        </form>
+        
+    </div>
+
+  
+   <hr />
+      
+     
+        <div class="col-8 offset-3">
+          <br>
+          <h4>Leave a Review</h4>
+          <form action="/listings/<%= listing.id%>/reviews" method="POST">
+            <div class="mb-3 mt-3">
+              <label for="rating" class="form-label">Rating</label>
+              <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-range">
+
+            </div>
+
+            <div class="mb-3 mt-3">
+              <label for="comment" class="form-label">Comment</label>
+              <textarea class="form-control mb-3 "  cols="30" rows="5" id="comment" name="review[comment]"></textarea>
+            </div>
+            <button type="reset" class="btn mb-3 btn-outline-dark">Submit</button>
+          </form>
+          <hr>
+        </div>
+        <div class="card col-6 offset-3 mb-3">
+               <h3>Where you'll be</h3>
+               <div id="map"></div>
+
+        </div>
+     </div>
+     <script>
+      let mapToken = "pk.eyJ1IjoiZGVsdGEtc3R1ZHVlbnQiLCJhIjoiY2xvMDk0MTVhMTJ3ZDJrcGR5ZDFkaHl4ciJ9.Gj2VU1wvxc7rFVt5E4KLOQ";
+      console.log(mapToken);
+      mapboxgl.accessToken = mapToken;
+    const map = new mapboxgl.Map({
+    container: 'map', 
+    center: [77.209, 28.6149], 
+    zoom: 9
+    });
+    </script>
+  </body>
